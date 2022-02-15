@@ -4,6 +4,9 @@ namespace test;
 
 public class UnitTest1
 {
+    // Tests probably do not cover all edge cases
+
+    
     [Fact]
     public void TestFind()
     {
@@ -134,15 +137,13 @@ public class UnitTest1
         var find11 = sut.Find(11);
         var find50 = sut.Find(50);
         var find61 = sut.Find(61);
-        var find22 = sut.Find(22);
+        var find22 = sut.Find(22); 
     
         // Then
         Assert.Equal("Removed", result.Message);
-        Assert.Equal(21, result.Result.Value);
         Assert.Equal("Found", find11.Message);
         Assert.Equal("Found", find50.Message);
         Assert.Equal("Not found", find61.Message);
         Assert.Equal("Not found", find22.Message);
-
     }
 }

@@ -14,6 +14,10 @@ public class TreeNode
 
     }
 
+    // Checks if the value is equal to the value of the node
+    // Depending on if its bigger or smaller it recursively calls the function again on either right or left
+    // When it finds the value it returns a response with a message and the node holding the value
+    // When it reaches a deadend or null means that the value is not in the tree and so returns a message and null
     public Response Find(int value)
     {
         Console.WriteLine("Find() has been called");
@@ -40,6 +44,10 @@ public class TreeNode
     }
 
 
+    // Compares the value to the values of the node 
+    // If the value is smaller it needs to go left and if its bigger it goes right
+    // It keeps looking until it finds a null, a place to put the value. 
+    // If the value already exist or it has been placed it sends a message and the node with the location
     public Response Add(int value)
     {
         Console.WriteLine("Add() has been called");
@@ -70,12 +78,13 @@ public class TreeNode
     }
 
 
+    // Depricated?
     public Response Remove(int value)
     {
         Console.WriteLine("Remove() has been called");
         if (value == Value)
         {
-            return new Response("Cant remove root node", this);
+            return new Response("Cant remove root node", null);
         }
         if (value < Value)
         {
@@ -89,10 +98,14 @@ public class TreeNode
             return Right.Remove(value, this, false);
         }
 
-        return new Response("Not found", this);
+        return new Response("Not found", null);
     }
 
     
+    // Looks for the target value while storing the parent node and the direction it came from
+    // When the value has been found it checks how many children this node has
+    // Depending on that it calls a function that removes the node
+    // Returns a message and null
     public Response Remove(int value, TreeNode parent, bool isLeft)
     {
         Console.WriteLine("Remove() has been called");
@@ -126,6 +139,8 @@ public class TreeNode
         return new Response("Not found", this);
     }
 
+    // If the node has no children it will remove the node by using the parent node reference to itself
+    // Returns a message and null
     private Response RemoveNoChildren(TreeNode parent, bool isLeft)
     {
         if (isLeft)
@@ -140,6 +155,8 @@ public class TreeNode
         return new Response("Removed", parent);
     }
 
+    // If the node has a single child it will check which direction it child goes and changes the reference in its parent node to its child node
+    // Returns a message and null
     private Response RemoveOneChild(TreeNode parent, bool isLeft)
     {
         if (this.Left != null)
@@ -168,32 +185,40 @@ public class TreeNode
         return new Response("Removed", parent);
     }
 
+    // If the node has two children it will grab the lowest value node of its right branch to be inserted in the tree on its own place.
+    // The left and right branches will be added to this new root node and the reference to this node needs to be removed from its old parent
+    // Returns a message and null 
     private Response RemoveTwoChildren(TreeNode parent, bool isLeft)
     {
-        var min = Right.Min(this)[0];
-        var minParent = Right.Min(this)[1];
-
-        min.Left = this.Left;
-
-        if (min.Value != this.Right.Value)
+        if (Right != null && Left != null)
         {
-            min.Right = this.Right;
-        }
-        minParent.Left = null;
+            var newRoot = Right.Min(this)[0];
+            var oldParent = Right.Min(this)[1];
 
-        if (isLeft)
-        {
-            parent.Left = min;
-        }
-        else 
-        {
-            parent.Right = min;
+            newRoot.Left = this.Left;
+
+            if (newRoot.Value != this.Right.Value)
+            {
+                newRoot.Right = this.Right;
+            }
+            oldParent.Left = null;
+
+            if (isLeft)
+            {
+                parent.Left = newRoot;
+            }
+            else 
+            {
+                parent.Right = newRoot;
+            }
         }
 
-        return new Response("Removed", parent);
+        return new Response("Removed", null);
     }
 
 
+    // Count how many children a node has
+    // Returns an int
     public int CountChildren()
     {
         int count = 0;
@@ -210,6 +235,8 @@ public class TreeNode
         return count;
     }
 
+    // Finds the lowest value by going left until it hits a null
+    // Returns a TreeNode
     public TreeNode Min()
     {
         if (Left != null)
@@ -220,7 +247,9 @@ public class TreeNode
         return this;
     }
 
-    private TreeNode[] Min(TreeNode parent)
+    // It works the same as the other Min method but for one application I also need the parent node
+    // Returns an array with TreeNodes
+    public TreeNode[] Min(TreeNode parent)
     {
         if (Left != null)
         {

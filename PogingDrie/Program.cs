@@ -2,19 +2,6 @@
 {
     public static void Main(string[] args)
     {
-        var tree = GenerateTree();
-
-        tree.Add(47);
-        tree.Add(14);
-
-        tree.Remove(17);
-
-        Console.WriteLine(tree.Find(30).Result.Left.Value);
-
-        for (int i = 1; i < 60; i++)
-        {
-            Console.WriteLine(i + ": " + tree.Find(i).Message);
-        }
     }
 
     public static Tree GenerateTree()
@@ -59,27 +46,6 @@
 
         Tree tree = new Tree(17);
         tree.Root = root17;
-
-        return tree;
-    }
-
-    public static Tree GenerateTree2()
-    {
-        var tree = new Tree(17);
-        tree.Add(1);
-        tree.Add(4);
-        tree.Add(5);
-        tree.Add(9);
-        tree.Add(12);
-        tree.Add(11);
-        tree.Add(13);
-        tree.Add(35);
-        tree.Add(27);
-        tree.Add(21);
-        tree.Add(42);
-        tree.Add(35);
-        tree.Add(50);
-        tree.Add(30);
 
         return tree;
     }
