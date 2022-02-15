@@ -7,6 +7,11 @@ public class Tree<T> where T : IComparable
         Root = new TreeNode<T>(value);
     }
 
+    public Tree()
+    {
+        
+    }
+
     public Response<T> Find(T value)
     {
         if (Root != null)

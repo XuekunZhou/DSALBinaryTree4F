@@ -2,6 +2,12 @@
 {
     public static void Main(string[] args)
     {
+        var tree = GenerateTree();
+
+        for (int i = 1; i < 60; i++)
+        {
+            Console.WriteLine(i + ": " + tree.Find(i).Message);
+        }
     }
 
     public static Tree<int> GenerateTree()
@@ -44,7 +50,7 @@
         root17.Left = branch9;
         root17.Right = branch30;
 
-        Tree<int> tree = new Tree<int>(17);
+        Tree<int> tree = new Tree<int>();
         tree.Root = root17;
 
         return tree;
