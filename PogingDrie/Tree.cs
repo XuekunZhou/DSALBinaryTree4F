@@ -1,42 +1,47 @@
-public class Tree
+public class Tree<T> where T : IComparable
 {
-    public TreeNode? Root { get; set; }
+    public TreeNode<T>? Root { get; set; }
 
-    public Tree(int value)
+    public Tree(T value)
     {
-        Root = new TreeNode(value);
+        Root = new TreeNode<T>(value);
     }
 
-    public Response Find(int value)
+    public Tree()
+    {
+        
+    }
+
+    public Response<T> Find(T value)
     {
         if (Root != null)
         {
             return Root.Find(value);
         }
-        return new Response("No Tree", null);
+        return new Response<T>("No Tree", null);
     }
 
-    public Response Add(int value)
+    public Response<T> Add(T value)
     {
         if (Root != null)
         {
             return Root.Add(value);
         }
-        return new Response("No Tree", null);
+        return new Response<T>("No Tree", null);
     }
 
-    private Response RemoveNoChildren()
+    private Response<T> RemoveNoChildren()
     {
         if (Root != null)
         {
             Root = null;
 
-            return new Response("Removed", null);
+            return new Response<T>("Removed", null);
         }
-        return new Response("No Tree", null);
+        return new Response<T>("No Tree", null);
     }
 
-    private Response RemoveOneChild()
+    private Response<T> RemoveOneChild()
     {
         if (Root != null)
         {
@@ -48,13 +53,13 @@ public class Tree
             {
                 Root = Root.Right;
             }
-            return new Response("Removed", null);
+            return new Response<T>("Removed", null);
         }
 
-        return new Response("No Tree", null);
+        return new Response<T>("No Tree", null);
     }
 
-    private Response RemoveTwoChildren()
+    private Response<T> RemoveTwoChildren()
     {
         if (Root != null && Root.Left != null && Root.Right != null)
         {
@@ -70,17 +75,17 @@ public class Tree
             oldParent.Left = null;
             Root = newRoot;
             
-            return new Response("Removed", null);
+            return new Response<T>("Removed", null);
         }
         
-        return new Response("No Tree", null);
+        return new Response<T>("No Tree", null);
     }
 
-    public Response Remove(int value)
+    public Response<T> Remove(T value)
     {
         if (Root != null)
         {
-            if (value == Root.Value)
+            if (Root.Value.CompareTo(value) == 0)
             {
                 switch (Root.CountChildren())
                 {
@@ -94,16 +99,16 @@ public class Tree
                         return RemoveTwoChildren();
                         
                 }
-                return new Response("Removed", Root);
+                return new Response<T>("Removed", Root);
             }
 
-            if (value < Root.Value)
+            if (Root.Value.CompareTo(value) > 0)
             {
                 return Root.Remove(value, Root, true);
             }
             return Root.Remove(value, Root, false);
         }
 
-        return new Response("No Tree", null);
+        return new Response<T>("No Tree", null);
     }
 }
