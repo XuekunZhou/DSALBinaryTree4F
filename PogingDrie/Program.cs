@@ -2,68 +2,85 @@
 {
     public static void Main(string[] args)
     {
-        var root = GenerateTree();
+        var tree = GenerateTree();
 
-        root.Add(47);
-        root.Add(14);
+        tree.Add(47);
+        tree.Add(14);
 
-        if (root.Find(27).Result.Left == null)
-        {
-            Console.WriteLine("You ffed");
-        }
+        tree.Remove(17);
 
-        root.Remove(17);
-
-        Console.WriteLine(root.Find(30).Result.Left.Value);
+        Console.WriteLine(tree.Find(30).Result.Left.Value);
 
         for (int i = 1; i < 60; i++)
         {
-            Console.WriteLine(i + ": " + root.Find(i).Message);
+            Console.WriteLine(i + ": " + tree.Find(i).Message);
         }
-
-        // Console.WriteLine("42: " + root.Find(42).Message);
     }
 
     public static Tree GenerateTree()
     {
-        Tree leaf1 = new Tree(1);
-        Tree leaf5 = new Tree(5);
-        Tree leaf11 = new Tree(11);
-        Tree leaf13 = new Tree(13);
-        Tree leaf21 = new Tree(21);
-        Tree leaf35 = new Tree(35);
-        Tree leaf50 = new Tree(50);
+        TreeNode leaf1 = new TreeNode(1);
+        TreeNode leaf5 = new TreeNode(5);
+        TreeNode leaf11 = new TreeNode(11);
+        TreeNode leaf13 = new TreeNode(13);
+        TreeNode leaf21 = new TreeNode(21);
+        TreeNode leaf35 = new TreeNode(35);
+        TreeNode leaf50 = new TreeNode(50);
 
 
-        Tree branch4 = new Tree(4);
+        TreeNode branch4 = new TreeNode(4);
         branch4.Left = leaf1;
         branch4.Right = leaf5;
 
-        Tree branch12 = new Tree(12);
+        TreeNode branch12 = new TreeNode(12);
         branch12.Left = leaf11;
         branch12.Right = leaf13;
 
-        Tree branch27 = new Tree(27);
+        TreeNode branch27 = new TreeNode(27);
         branch27.Left = leaf21;
 
-        Tree branch42 = new Tree(42);
+        TreeNode branch42 = new TreeNode(42);
         branch42.Left = leaf35;
         branch42.Right = leaf50;
 
 
-        Tree branch9 = new Tree(9);
+        TreeNode branch9 = new TreeNode(9);
         branch9.Left = branch4;
         branch9.Right = branch12;
 
-        Tree branch30 = new Tree(30);
+        TreeNode branch30 = new TreeNode(30);
         branch30.Left = branch27;
         branch30.Right = branch42;
 
 
-        Tree root17 = new Tree(17);
+        TreeNode root17 = new TreeNode(17);
         root17.Left = branch9;
         root17.Right = branch30;
 
-        return root17;
+        Tree tree = new Tree(17);
+        tree.Root = root17;
+
+        return tree;
+    }
+
+    public static Tree GenerateTree2()
+    {
+        var tree = new Tree(17);
+        tree.Add(1);
+        tree.Add(4);
+        tree.Add(5);
+        tree.Add(9);
+        tree.Add(12);
+        tree.Add(11);
+        tree.Add(13);
+        tree.Add(35);
+        tree.Add(27);
+        tree.Add(21);
+        tree.Add(42);
+        tree.Add(35);
+        tree.Add(50);
+        tree.Add(30);
+
+        return tree;
     }
 }
