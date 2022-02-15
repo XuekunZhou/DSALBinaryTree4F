@@ -5,6 +5,16 @@
         var root = GenerateTree();
 
         root.Add(47);
+        root.Add(14);
+
+        if (root.Find(27).Result.Left == null)
+        {
+            Console.WriteLine("You ffed");
+        }
+
+        root.Remove(17);
+
+        Console.WriteLine(root.Find(30).Result.Left.Value);
 
         for (int i = 1; i < 60; i++)
         {
@@ -14,7 +24,7 @@
         // Console.WriteLine("42: " + root.Find(42).Message);
     }
 
-    private static Tree GenerateTree()
+    public static Tree GenerateTree()
     {
         Tree leaf1 = new Tree(1);
         Tree leaf5 = new Tree(5);
@@ -34,7 +44,7 @@
         branch12.Right = leaf13;
 
         Tree branch27 = new Tree(27);
-        branch27.Right = leaf21;
+        branch27.Left = leaf21;
 
         Tree branch42 = new Tree(42);
         branch42.Left = leaf35;
