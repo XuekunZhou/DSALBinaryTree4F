@@ -8,6 +8,15 @@
         {
             Console.WriteLine(i + ": " + tree.Find(i).Message);
         }
+
+
+        var node = tree.Get(2, 4);
+        Console.WriteLine(node.Message);
+        
+        if (node.Message == "Found")
+        {
+            Console.WriteLine(node.Result.Value.ToString());
+        }
     }
 
     public static Tree<int> GenerateTree()

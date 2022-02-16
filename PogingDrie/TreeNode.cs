@@ -9,9 +9,61 @@ public class TreeNode<T> where T : IComparable
         Value = value;
     }
 
-    public void Get()
+    public Response<T> Get(int level, int col)
     {
+        int levelSize = (int) Math.Pow(2, level);
 
+        if (col >= levelSize || col < 0 || level < 0)
+        {
+            return new Response<T>("Out of bounds", null);
+        }
+
+        if (level == 0)
+        {
+            return new Response<T>("Found", this);
+        }
+
+        if (level == 1)
+        {
+            if (col == 0)
+            {
+                if (Left != null)
+                {
+                    return new Response<T>("Found", Left);
+                }
+                
+                return new Response<T>("No node exist on this coordinate", null);
+                
+            }
+            
+            if (Right != null)
+            {
+                return new Response<T>("Found", Right);
+            }
+            
+            return new Response<T>("No node exist on this coordinate", null);  
+        }
+        
+
+        if (col > (levelSize / 2) )
+        {
+            if (Right != null)
+            {
+                return Right.Get(level - 1, levelSize - col);
+            }
+
+            return new Response<T>("No node exist on this coordinate", null);
+            
+        }
+        else
+        {
+            if (Left != null)
+            {
+                return Left.Get(level - 1, col);
+            }
+
+            return new Response<T>("No node exist on this coordinate", null);
+        }
     }
 
     // Checks if the value is equal to the value of the node
