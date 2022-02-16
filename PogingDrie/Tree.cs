@@ -12,6 +12,16 @@ public class Tree<T> where T : IComparable
         
     }
 
+    public Response<T> Get(int level, int col)
+    {
+        if (Root != null)
+        {
+            return Root.Get(level, col);
+        }
+
+        return new Response<T>("No tree", null);
+    }   
+
     public Response<T> Find(T value)
     {
         if (Root != null)
