@@ -3,6 +3,56 @@ public class TreeNode<T> where T : IComparable
     public T Value { get; set; }
     public TreeNode<T>? Left { get; set; }      
     public TreeNode<T>? Right { get; set; }
+    public int Weight { get; set; }
+
+    private void AdjustWeight()
+    {
+        if (Left != null)
+        {
+            Weight = Weight - Math.Abs(Left.Weight);
+        }
+        if (Right != null)
+        {
+            Weight = Weight + Math.Abs(Right.Weight);
+        }
+    }
+
+    private void AdjustBalance()
+    {
+        if (Weight <= -2)
+        {
+            RotateRight(this);
+        }
+        if (Weight >= 2)
+        {
+            RotateLeft(this);
+        }
+    }
+
+    private TreeNode<T> RotateRight(TreeNode<T> node)
+    {
+        var newRoot = node.Left;
+        node.Left = newRoot.Right;
+        newRoot.Right = node;
+
+        node.AdjustWeight();
+        newRoot.AdjustWeight();
+
+        return newRoot;
+    }
+
+    private TreeNode<T> RotateLeft(TreeNode<T> node)
+    {
+        var newRoot = node.Right;
+        node.Right = newRoot.Left;
+        newRoot.Left = node;
+
+        node.AdjustWeight();
+        newRoot.AdjustWeight();
+
+        return newRoot;
+    }
+
 
     public TreeNode(T value)
     {
@@ -14,7 +64,7 @@ public class TreeNode<T> where T : IComparable
     // If the column is equal or bigger than the size of that level it checks right and subtracts 1 from level because the sub-tree we are now searching is now smaller
     // And also subtract half of the level size from the column to correct its position in the sub-tree
     // Eventually we reach level 1 and we give either left or right depending on the col parameter and returns a message and the node
-    // If its not possible to reach a node because a child is null, it returns an message saying the node doesnt exist and null
+    // If its not possible to reach a node because a node is null, it returns an message saying the node doesnt exist and null
 
     // The time complexity depends on the height of the tree, but since this tree is not balanced at at worst it could be O(n) if you want the lowest level
     // But since you know beforehand to what level you want to go maybe you could argue that the function is O(1)
@@ -192,7 +242,7 @@ public class TreeNode<T> where T : IComparable
         return new Response<T>("Removed", parent);
     }
 
-    // If the node has a single child it will check which direction it child goes and changes the reference in its parent node to its child node
+    // If the node has a single node it will check which direction it node goes and changes the reference in its parent node to its node node
     // Returns a message and null
     private Response<T> RemoveOneChild(TreeNode<T> parent, bool isLeft)
     {
